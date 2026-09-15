@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+#grid-container {
+    width: 700px;
+    height: 700px;
+    border-color: darkgray;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+#grid-controls {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.grid-square {
+    border-style: dashed;
+    border-width: thin;
+    margin: 0px;
+    padding: 0px;
+}
+

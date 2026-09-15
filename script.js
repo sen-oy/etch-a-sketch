@@ -11,6 +11,7 @@ function createGrid (dimension) {
         let square = document.createElement('div');
         square.style.width = squareWidth;
         square.style.height = squareWidth;
+        square.classList.add('grid-square');
         gridContainer.appendChild(square);
 
         // add event listener for each square
