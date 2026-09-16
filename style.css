@@ -7,6 +7,8 @@ body {
 }
 
 #grid-container {
+    display: flex;
+    flex-flow: row wrap;
     width: 700px;
     height: 700px;
     border-color: darkgray;
@@ -26,6 +28,7 @@ body {
 .grid-square {
     border-style: dashed;
     border-width: thin;
+    box-sizing: border-box;
     margin: 0px;
     padding: 0px;
 }
