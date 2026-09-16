@@ -3,6 +3,19 @@ const gridDimension = document.querySelector('#grid-dimension-slider');
 const gridContainer = document.querySelector('#grid-container');
 const gridColor = document.querySelector('#grid-color');
 
+// helper functions
+function getContainerWidth (container) {
+    return container.offsetWidth; // we're using border box sizing
+}
+
+function getGridColorValue (colorPicker) {
+    return colorPicker.value;
+}
+
+function getGridDimensions (dimensionInput) {
+    return dimensionInput.value;
+}
+
 function createGrid (dimension) {
     let numberOfSquares = parseInt(dimension) ** 2;
     let gridSize = parseInt(gridContainer.clientWidth);
@@ -41,3 +54,5 @@ function resetGrid () {
 window.addEventListener('load', () => {
     createGrid(gridDimension.value);
 })
+
+// add helper functions to decouple variables and functions
