@@ -4,14 +4,14 @@ const gridContainer = document.querySelector('#grid-container');
 const gridColor = document.querySelector('#grid-color');
 
 function createGrid (dimension) {
-    let numberOfSquares = gridDimension ** 2;
-    let gridSize = gridContainer.style.width;
+    let numberOfSquares = parseInt(dimension) ** 2;
+    let gridSize = parseInt(gridContainer.clientWidth);
     let squareWidth = gridSize / dimension;
     for (let i = 0; i < numberOfSquares; i++){
         let square = document.createElement('div');
+        square.classList.add('grid-square');
         square.style.width = squareWidth;
         square.style.height = squareWidth;
-        square.classList.add('grid-square');
         gridContainer.appendChild(square);
 
         // add event listener for each square
@@ -38,4 +38,6 @@ function resetGrid () {
 }
 
 // initialize grid
-createGrid(gridDimension.value);
+window.addEventListener('load', () => {
+    createGrid(gridDimension.value);
+})
