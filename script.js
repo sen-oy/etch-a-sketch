@@ -2,6 +2,10 @@
 const gridDimension = document.querySelector('#grid-dimension-slider');
 const gridContainer = document.querySelector('#grid-container');
 const gridColor = document.querySelector('#grid-color');
+const gridColorRandomizerButton = document.querySelector('#grid-color-randomizer');
+
+// random color boolean
+let randomColorMode = false;
 
 // helper functions
 function getContainerWidth (container) {
@@ -25,6 +29,19 @@ function createGridSquare (squareWidth) {
     return square
 }
 
+function toggleRandomColorMode () {
+    if (randomColorMode) {
+        randomColorMode = false;
+    } else {
+        randomColorMode = true;
+    }
+}
+
+function getRandomColorModeStatus () {
+    return randomColorMode;
+}
+
+// function to create the grid
 function createGrid (dimensionInput, container) {
     let numberOfSquares = parseInt(dimensionInput) ** 2;
     let gridSize = getContainerWidth(container);
@@ -35,7 +52,13 @@ function createGrid (dimensionInput, container) {
         container.appendChild(square);
 
         // add event listener for each square
-        square.addEventListener('mouseover', colorSquare);
+        square.addEventListener('mouseover', (event) => {
+            if (getRandomColorModeStatus()) {
+                colorSquare(event, generateRandomColor());
+            } else {
+                colorSquare(event);
+            }
+        });
     }
 }
 
@@ -62,3 +85,18 @@ function resetGrid (container, dimensionInput) {
 window.addEventListener('load', () => {
     resetGrid(gridContainer, gridDimension);
 })
+
+// randomize color function
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function generateRandomColor () {
+    let redValue = getRandomInt(256);
+    let greenValue = getRandomInt(256);
+    let blueValue = getRandomInt(256);
+
+    return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+}
+
+gridColorRandomizerButton.addEventListener('click', toggleRandomColorMode);
