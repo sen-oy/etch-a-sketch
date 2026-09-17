@@ -13,7 +13,7 @@ function getContainerWidth (container) {
 }
 
 function getGridColorValue (colorPicker) {
-    return colorPicker.value;
+    return hexToRgb(colorPicker.value);
 }
 
 function getGridDimensions (dimensionInput) {
@@ -25,6 +25,8 @@ function createGridSquare (squareWidth) {
     square.classList.add('grid-square');
     square.style.width = `${squareWidth}px`;
     square.style.height = `${squareWidth}px`;
+    square.setAttribute('colored', 'no');
+    square.style.opacity = 0.3;
 
     return square
 }
@@ -53,10 +55,21 @@ function createGrid (dimensionInput, container) {
 
         // add event listener for each square
         square.addEventListener('mouseover', (event) => {
-            if (getRandomColorModeStatus()) {
-                colorSquare(event, generateRandomColor());
+            if ((event.target.getAttribute('colored') === 'yes') && 
+                (event.target.style.backgroundColor === getGridColorValue(gridColor))) 
+                {
+                let currentOpacity = parseFloat(event.target.style.opacity);
+                if (currentOpacity < 1.0) {
+                    currentOpacity += 0.1;
+                    event.target.style.opacity = `${currentOpacity}`;
+                }
             } else {
-                colorSquare(event);
+                if (getRandomColorModeStatus()) {
+                    colorSquare(event, generateRandomColor());
+                } else {
+                    colorSquare(event);
+                }
+                event.target.setAttribute('colored', 'yes');
             }
         });
     }
@@ -100,3 +113,11 @@ function generateRandomColor () {
 }
 
 gridColorRandomizerButton.addEventListener('click', toggleRandomColorMode);
+
+// color conversion function from hex to rgb
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? 
+        `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : 
+        null;
+}
