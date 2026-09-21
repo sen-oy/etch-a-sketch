@@ -3,9 +3,13 @@ const gridDimension = document.querySelector('#grid-dimension-slider');
 const gridContainer = document.querySelector('#grid-container');
 const gridColor = document.querySelector('#grid-color');
 const gridColorRandomizerButton = document.querySelector('#grid-color-randomizer');
+const gridDimensionLabel = document.querySelector('#grid-dimension-label');
+const gridClearButton = document.querySelector('#grid-clear-button');
+const gridEraserButton = document.querySelector('#grid-eraser-button');
 
 // random color boolean
 let randomColorMode = false;
+let eraserMode = false;
 
 // helper functions
 function getContainerWidth (container) {
@@ -31,16 +35,20 @@ function createGridSquare (squareWidth) {
     return square
 }
 
-function toggleRandomColorMode () {
-    if (randomColorMode) {
-        randomColorMode = false;
-    } else {
-        randomColorMode = true;
-    }
-}
-
 function getRandomColorModeStatus () {
     return randomColorMode;
+}
+
+function setRandomColorModeStatus (value) {
+    randomColorMode = value;
+}
+
+function getEraserModeStatus () {
+    return eraserMode;
+}
+
+function setEraserModeStatus (value) {
+    eraserMode = value
 }
 
 // randomize color function
@@ -49,14 +57,30 @@ function getRandomInt(max) {
 }
 
 function generateRandomColor () {
-    let redValue = getRandomInt(256);
-    let greenValue = getRandomInt(256);
-    let blueValue = getRandomInt(256);
+    let redValue = getRandomInt(255);
+    let greenValue = getRandomInt(255);
+    let blueValue = getRandomInt(255);
 
     return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
 }
 
-gridColorRandomizerButton.addEventListener('click', toggleRandomColorMode);
+gridColorRandomizerButton.addEventListener('click', () => {
+    if (getRandomColorModeStatus()) {
+        setRandomColorModeStatus(false);
+    } else {
+        setRandomColorModeStatus(true);
+    }
+    setEraserModeStatus(false);
+});
+
+gridEraserButton.addEventListener('click', () => {
+    if (getEraserModeStatus()) {
+        setEraserModeStatus(false);
+    } else {
+        setEraserModeStatus(true);
+    }
+    setRandomColorModeStatus(false);
+});
 
 // color conversion function from hex to rgb
 function hexToRgb(hex) {
@@ -65,6 +89,12 @@ function hexToRgb(hex) {
         `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : 
         null;
 }
+
+// grid color change should override randomizer and eraser
+gridColor.addEventListener('change', () => {
+    setEraserModeStatus(false);
+    setRandomColorModeStatus(false);
+})
 
 // function to create the grid
 function createGrid (dimensionInput, container) {
@@ -79,7 +109,8 @@ function createGrid (dimensionInput, container) {
         // add event listener for each square
         square.addEventListener('mouseover', (event) => {
             if ((event.target.getAttribute('colored') === 'yes') && 
-                (event.target.style.backgroundColor === getGridColorValue(gridColor))) 
+                (event.target.style.backgroundColor === getGridColorValue(gridColor)) &&
+                (!getRandomColorModeStatus() && !getEraserModeStatus())) 
                 {
                 let currentOpacity = parseFloat(event.target.style.opacity);
                 if (currentOpacity < 1.0) {
@@ -89,6 +120,8 @@ function createGrid (dimensionInput, container) {
             } else {
                 if (getRandomColorModeStatus()) {
                     colorSquare(event, generateRandomColor());
+                } else if (getEraserModeStatus()){
+                    colorSquare(event, `rgb(255, 255, 255)`);
                 } else {
                     colorSquare(event);
                 }
@@ -104,6 +137,7 @@ function colorSquare (event, currentColor = getGridColorValue(gridColor)) {
 
 gridDimension.addEventListener('change', () => {
     resetGrid(gridContainer, gridDimension);
+    gridDimensionLabel.textContent = `${getGridDimensions(gridDimension)} x ${getGridDimensions(gridDimension)}`;
 });
 
 function resetGrid (container, dimensionInput) {
@@ -120,4 +154,13 @@ function resetGrid (container, dimensionInput) {
 // initialize grid
 window.addEventListener('load', () => {
     resetGrid(gridContainer, gridDimension);
+})
+
+// clear button logic
+gridClearButton.addEventListener('click', () => {
+    // get node list of all child nodes of our grid container
+    let currentSquares = gridContainer.childNodes;
+    for (let i = 0; i < currentSquares.length; i++) {
+        currentSquares[i].style.backgroundColor = `rgb(255, 255, 255)`;
+    }
 })

@@ -11,13 +11,21 @@
     <h2>Etch A Sketch</h2>
     <div id="grid-container"></div>
     <div id="grid-controls">
-        <input type="range" min="16" max="100" value="16" id="grid-dimension-slider" name="grid-dimension-slider">
-        <label for="grid-dimension-slider">Select the dimensions for your grid</label>
+        <div id="grid-dimension-container">
+            <input type="range" min="16" max="100" value="16" id="grid-dimension-slider" name="grid-dimension-slider">
+            <label id="grid-dimension-label" for="grid-dimension-slider">16 x 16</label>
+        </div>
         
-        <input type="color" id="grid-color" name="grid-color">
-        <label for="grid-color">Select a color</label>
+        <div id="grid-color-container">
+            <input type="color" id="grid-color" name="grid-color">
+            <label for="grid-color">Select a color</label>
+        </div>
 
-        <button id="grid-color-randomizer">Random Color Mode</button>
+        <div id="grid-special-controls-container">
+            <button id="grid-color-randomizer">Random Color Mode</button>
+            <button id="grid-clear-button">Clear Grid</button>
+            <button id="grid-eraser-button">Eraser</button>
+        </div>
     </div>
 </body>
 </html>
