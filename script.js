@@ -26,7 +26,7 @@ function createGridSquare (squareWidth) {
     square.style.width = `${squareWidth}px`;
     square.style.height = `${squareWidth}px`;
     square.setAttribute('colored', 'no');
-    square.style.opacity = 0.3;
+    square.style.opacity = 0.5;
 
     return square
 }
@@ -41,6 +41,29 @@ function toggleRandomColorMode () {
 
 function getRandomColorModeStatus () {
     return randomColorMode;
+}
+
+// randomize color function
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function generateRandomColor () {
+    let redValue = getRandomInt(256);
+    let greenValue = getRandomInt(256);
+    let blueValue = getRandomInt(256);
+
+    return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+}
+
+gridColorRandomizerButton.addEventListener('click', toggleRandomColorMode);
+
+// color conversion function from hex to rgb
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? 
+        `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : 
+        null;
 }
 
 // function to create the grid
@@ -98,26 +121,3 @@ function resetGrid (container, dimensionInput) {
 window.addEventListener('load', () => {
     resetGrid(gridContainer, gridDimension);
 })
-
-// randomize color function
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-function generateRandomColor () {
-    let redValue = getRandomInt(256);
-    let greenValue = getRandomInt(256);
-    let blueValue = getRandomInt(256);
-
-    return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
-}
-
-gridColorRandomizerButton.addEventListener('click', toggleRandomColorMode);
-
-// color conversion function from hex to rgb
-function hexToRgb(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? 
-        `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : 
-        null;
-}
