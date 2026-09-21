@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 0.5rem;
+    font-family: 'Inter', 'Roboto', sans-serif;
 }
 
 #grid-container {
@@ -20,9 +24,36 @@ body {
 }
 
 #grid-controls {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
     display: flex;
-    gap: 2rem;
+    gap: 10rem;
     align-items: center;
+    justify-content: space-between;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+#grid-controls div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.special-button {
+    background-color: #f2ebe2;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+}
+
+#grid-controls button:hover {
+    background-color: #000;
+    color: #f2ebe2;
+    cursor: pointer;
 }
 
 .grid-square {
@@ -33,3 +64,7 @@ body {
     padding: 0px;
 }
 
+.active-special-button {
+    background-color: #000;
+    color: #f2ebe2;
+}

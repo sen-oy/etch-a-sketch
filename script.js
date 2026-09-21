@@ -64,22 +64,28 @@ function generateRandomColor () {
     return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
 }
 
-gridColorRandomizerButton.addEventListener('click', () => {
+gridColorRandomizerButton.addEventListener('click', (event) => {
     if (getRandomColorModeStatus()) {
         setRandomColorModeStatus(false);
+        event.target.classList.remove('active-special-button');
     } else {
         setRandomColorModeStatus(true);
+        event.target.classList.add('active-special-button');
     }
     setEraserModeStatus(false);
+    gridEraserButton.classList.remove('active-special-button');
 });
 
-gridEraserButton.addEventListener('click', () => {
+gridEraserButton.addEventListener('click', (event) => {
     if (getEraserModeStatus()) {
         setEraserModeStatus(false);
+        event.target.classList.remove('active-special-button');
     } else {
         setEraserModeStatus(true);
+        event.target.classList.add('active-special-button');
     }
     setRandomColorModeStatus(false);
+    gridColorRandomizerButton.classList.remove('active-special-button');
 });
 
 // color conversion function from hex to rgb
@@ -94,6 +100,8 @@ function hexToRgb(hex) {
 gridColor.addEventListener('change', () => {
     setEraserModeStatus(false);
     setRandomColorModeStatus(false);
+    gridColorRandomizerButton.classList.remove('active-special-button');
+    gridEraserButton.classList.remove('active-special-button');
 })
 
 // function to create the grid
@@ -137,7 +145,7 @@ function colorSquare (event, currentColor = getGridColorValue(gridColor)) {
 
 gridDimension.addEventListener('change', () => {
     resetGrid(gridContainer, gridDimension);
-    gridDimensionLabel.textContent = `${getGridDimensions(gridDimension)} x ${getGridDimensions(gridDimension)}`;
+    gridDimensionLabel.textContent = `Dimensions: ${getGridDimensions(gridDimension)} x ${getGridDimensions(gridDimension)}`;
 });
 
 function resetGrid (container, dimensionInput) {
